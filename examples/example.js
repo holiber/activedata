@@ -16,6 +16,25 @@ $(function () {
 		]
 	}
 
+	window.messages = new ActiveData ({
+		columns: ['text', 'subject', 'user'],
+		rows: [
+			['Hello world!', 'programming', {id: 1, name: 'Bob'}],
+			['Happy new year!', 'new year', {id: 2, name: 'Kate'}],
+			['How to learn javascript?', 'programming', {id: 2, name: 'Stan'}],
+			['Anyone want to dance?', 'new year', {id: 2, name: 'James'}]
+		]
+	});
+
+	window.diet = new ActiveData ({
+		columns: ['month', 'breakfast', 'dinner'],
+		rows: [
+			['april', {calories: 400, food: 'egg'}, {calories: 300, food: 'soup'}],
+			['may', {calories: 300, food: 'bacon'}, {calories: 500, food: 'soup'}],
+			['june', {calories: 350, food: 'porridge'}, {calories: 300, food: 'chicken'}]
+		]
+	});
+
 	var selectors = {
 		all: true,
 		apples: {type: 'apple'},
@@ -24,9 +43,10 @@ $(function () {
 		redImages: [{color: 'red'}, ['image']],
 		heavyFruits: [{weight: {$gte: 1}}, ['image', 'weight', 'type']],
 		cheapOrYellow: [[{price: {$lt: 1}}, {color: 'yellow'}]],
-		expensiveIntfruits: {price: {$and: [{$gte: 1}, function (value) {return value % 1 == 0}] }}
-
+		expensiveIntfruits: {price: {$and: [{$gte: 1}, function (value) {return value % 1 == 0}]}},
+		regExp: {type: /apple/}
 	}
+
 	var render = function (rows) {
 		$('.table-place').html(tableTemplate(rows));
 	}
@@ -51,6 +71,4 @@ $(function () {
 	var fruits = window.fruits = new ActiveData(data);
 	fruits.addFields([{name: 'image', compute: function (row) { return '<img src="images/' + row.type + '-' + row.color + '.jpeg">'}}])
 	render(fruits.rows);
-
-
 })

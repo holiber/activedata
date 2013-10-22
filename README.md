@@ -32,7 +32,7 @@ fruits.find({type: ['apple', 'pear']});
  
  ---
  
-See more [examples](http://holiber.github.io/Qstore/examples/)
+See more [examples](http://holiber.github.io/activedata/examples/)
 
 ##API
 - [Initialisation](#initialisation)
@@ -46,6 +46,7 @@ See more [examples](http://holiber.github.io/Qstore/examples/)
   - [findIn](#findIn)
   - [test](#test)
   - [getList](#getList)
+  - [each](#each)
 - [Operators](#operators)
   - [Availble operators](#availOperators)
   - [addOperator](#addOperator)
@@ -109,7 +110,7 @@ var fruits = new Qstore({
 ####.find (query, [fields], [options])
 
 Returns all objects which valid for query. 
-See [examples of usage](http://holiber.github.io/qstore/examples/)
+See [examples of usage](http://holiber.github.io/activedata/examples/)
  
 
 - **query {Object|Array|Function|Bolean}**  
@@ -353,6 +354,30 @@ Examples:
 	messages.getList('user.name'); // ['Bob', 'Kate', 'Stan', 'James']
 ```
  ---
+ 
+<a name="each"></a>
+####.each ([query=true,] fn)
+apply function for each row
+
+- **[query=true] {Object|Function|Boolean}** filter query
+- **fn {Function}** function to apply
+
+```js
+	// add message to log for each fruit
+	fruits.each(function (row, i, query) {
+		conslole.log('fruit №' + i + ' is ' + row.type);
+	});
+	
+	// it will write:
+	//
+	// fruit №1 is apple
+	// fruit №2 is pear
+	// etc... 
+	//
+	
+```
+
+ ---
 
 <a name="operators"></a>
 ###Operators
@@ -544,7 +569,7 @@ remove fields from collection
  ---
 
 <a name="sort"></a>
-####sort (fields [,zeroIsLast=false])
+####.sort (fields [,zeroIsLast=false])
 another variant:
 **sort (fn)**  where **fn** is sort function
 
@@ -581,7 +606,7 @@ By default, your collections keep changes until you call the method **commit** o
 If you do not need this functionality, see [soft mode](#softMode).
 
 <a name="getChanges"></a>
-####getChanges ()
+####.getChanges ()
 returns collection of changes
 
 Examples:
@@ -612,7 +637,7 @@ An easier way to get the map of changes - use [getChangesMap](#getChnagesMap) me
  ---
 
 <a name="getChangesMap"></a>
-####getChangesMap ([keyField='idx'])
+####.getChangesMap ([keyField='idx'])
 
 Use this method to get map of changes group by action like:  
 
@@ -626,13 +651,13 @@ Use this method to get map of changes group by action like:
 
 
 <a name="commit"></a>
-####commit
+####.commit ()
 Commit changes.
 
  ---
  
 <a name="rollback"></a>
-####rollback
+####.rollback ()
 Revert all changes.
 
  ---
@@ -724,7 +749,7 @@ var listener = function (name, data, collection) {
 	// get operations changes
 	var changes = data.changes;
 	
-	// find apples whitch changed color
+	// find apples with changed color
 	var applePainting = changes.find({'source.type': 'apple', 'patch.color': {$ne: undefined} });
 	
 	// write to log
